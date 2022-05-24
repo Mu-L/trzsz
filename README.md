@@ -53,9 +53,11 @@ In this case, `lrzsz` ( rz / sz ) is convenient to use, but unfortunately it's n
 
 * [iTerm2](https://iterm2.com/) -- check [the trzsz-iterm2 installation](https://trzsz.github.io/iterm2).
 
-* [tabby](https://tabby.sh/) -- install [tabby-trzsz](https://github.com/trzsz/tabby-trzsz) plugin.
+* [tabby](https://tabby.sh/) -- install the [tabby-trzsz](https://github.com/trzsz/tabby-trzsz) plugin.
 
 * [electerm](https://electerm.github.io/electerm/) -- upgrade to `1.19.0` or higher.
+
+* [trzsz-go](https://github.com/trzsz/trzsz-go) -- supports all terminals that support a local shell.
 
 * [trzsz.js](https://github.com/trzsz/trzsz.js) -- making webshell in browser and electron terminal supports `trzsz`.
 
@@ -108,8 +110,8 @@ In this case, `lrzsz` ( rz / sz ) is convenient to use, but unfortunately it's n
 
 #### Trouble shooting
 * If `tmux` is not running on the remote server, but on the local computer, or on a middle server.
-  * Since `trzsz` can't find the `tmux` process on the server, have to use the `tmux -CC` control mode.
-  * About how to use the `tmux -CC` control mode, please refer to [iTerm2 tmux Integration](https://trzsz.github.io/tmuxcc).
+  * Option 1: Use `tmux -CC` integration with iTerm2, please refer to [iTerm2 tmux Integration](https://trzsz.github.io/tmuxcc).
+  * Option 2: Install [trzsz-go](https://github.com/trzsz/trzsz-go) on the local computer, and `alias ssh="trzsz ssh"` for convenience.
 
 * If an error occurs, and `trzsz` is hanging up.
   * Press `control + c` to stop `trz` or `tsz` process on the server.

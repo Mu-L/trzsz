@@ -55,7 +55,6 @@ def run_osascript(script):
 def choose_save_path(loop, connection):
     if connection and iterm2.capabilities.supports_file_panels(connection):
         panel = iterm2.OpenPanel()
-        panel.prompt = 'Choose'
         panel.message = 'Choose a folder to save file(s)'
         panel.options.clear()
         panel.options.append(iterm2.OpenPanel.Options.CAN_CHOOSE_DIRECTORIES)
@@ -89,7 +88,6 @@ def choose_save_path(loop, connection):
 def choose_send_files(loop, connection):
     if connection and iterm2.capabilities.supports_file_panels(connection):
         panel = iterm2.OpenPanel()
-        panel.prompt = 'Choose'
         panel.message = 'Choose some files to send'
         panel.options.clear()
         panel.options.append(iterm2.OpenPanel.Options.CAN_CHOOSE_FILES)
@@ -219,11 +217,12 @@ async def get_running_session(force):
                 for session in tab.sessions:
                     if session.session_id in session_id:
                         return connection, session
-        if force:
-            raise TrzszError("Can't find the session in iTerm2", trace=False)
-    except ConnectionRefusedError:
+    except Exception:
         if force:
             raise TrzszError('Please enable iTerm2 Python API', trace=False)
+        return None, None
+    if force:
+        raise TrzszError("Can't find the session in iTerm2", trace=False)
     return None, None
 
 def unique_id_exists(unique_id):

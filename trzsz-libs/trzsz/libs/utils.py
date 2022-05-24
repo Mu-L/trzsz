@@ -43,6 +43,7 @@ TMUX_CONTROL_MODE = 2
 tmux_output_junk = False
 tmux_real_stdout = sys.stdout
 tmux_pane_width = -1
+protocol_newline = '\n'
 
 try:
     stdin_old_tty = termios.tcgetattr(sys.stdin.fileno())
@@ -169,7 +170,7 @@ def decode_buffer(buf):
         raise TrzszError(buf, str(e))
 
 def send_line(typ, buf):
-    tmux_real_stdout.write('#%s:%s\n' % (typ, buf))
+    tmux_real_stdout.write('#%s:%s%s' % (typ, buf, protocol_newline))
     tmux_real_stdout.flush()
 
 trzsz_stopped = False
@@ -202,11 +203,10 @@ def recv_line(expect_typ, may_has_junk=False):
         flag = '#' + expect_typ + ':'
         if flag in s:
             s = flag + s.split(flag)[-1]
-    try:
-        typ, buf = s.split(':', 1)
-        return typ[1:], buf
-    except ValueError as e:
-        raise TrzszError(s, str(e))
+    idx = s.index(':')
+    if idx < 1:
+        raise TrzszError(encode_buffer(s), 'colon')
+    return s[1:idx], s[idx+1:]
 
 def recv_check(expect_typ, may_has_junk=False):
     typ, buf = recv_line(expect_typ, may_has_junk)
@@ -316,7 +316,11 @@ def send_action(confirm, version):
     send_json('ACT', action)
 
 def recv_action():
-    return recv_json('ACT')
+    action = recv_json('ACT')
+    if 'newline' in action:
+        global protocol_newline
+        protocol_newline = action['newline']
+    return action
 
 def send_config(args, escape_chars):
     config = {'lang': 'py'}
