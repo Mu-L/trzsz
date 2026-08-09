@@ -71,6 +71,10 @@ def send_config(args, action, escape_chars):
         config['tmux_output_junk'] = True
     if utils.CONFIG.tmux_pane_width > 0:
         config['tmux_pane_width'] = utils.CONFIG.tmux_pane_width
+    elif action.get('tmuxcc') is True:
+        width = utils.get_columns()
+        if width > 0:
+            config['tmux_pane_width'] = width
     if 'protocol' in action:
         config['protocol'] = min(action['protocol'], utils.PROTOCOL_VERSION)
     utils.CONFIG.loads(config)
