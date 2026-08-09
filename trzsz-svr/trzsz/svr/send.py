@@ -110,7 +110,7 @@ def main():
     elif tmux_mode == utils.TMUX_NORMAL_MODE:
         sys.stdout.write('\n\n\x1b[2A\x1b[0J' if 0 < utils.get_columns() < 40 else '\n\x1b[1A\x1b[0J')
         unique_id += 20
-    sys.stdout.write('\x1b7\x07::TRZSZ:TRANSFER:S:%s:%013d\r\n' % (__version__, unique_id))
+    sys.stdout.write('\x1b7::TRZSZ:TRANSFER:S:%s:%013d\r\n' % (__version__, unique_id))
     sys.stdout.flush()
 
     try:

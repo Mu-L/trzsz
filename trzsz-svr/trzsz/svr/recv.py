@@ -118,7 +118,7 @@ def main():
         unique_id += 20
 
     mode = 'D' if args.directory else 'R'
-    sys.stdout.write('\x1b7\x07::TRZSZ:TRANSFER:%s:%s:%013d\r\n' % (mode, __version__, unique_id))
+    sys.stdout.write('\x1b7::TRZSZ:TRANSFER:%s:%s:%013d\r\n' % (mode, __version__, unique_id))
     sys.stdout.flush()
 
     try:
