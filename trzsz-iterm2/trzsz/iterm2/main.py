@@ -145,6 +145,7 @@ def download_files(args, loop, connection, session, remote_is_windows):
     utils.check_path_writable(dest_path)
 
     utils.reconfigure_stdin()
+    utils.GLOBAL.trzsz_io.start_stdin_reader()
 
     transfer.send_action(True, __version__, remote_is_windows)
     config = transfer.recv_config()
@@ -185,6 +186,7 @@ def upload_files(args, loop, connection, session, directory, remote_is_windows):
         file_list = utils.check_paths_readable(paths, directory)
 
     utils.reconfigure_stdin()
+    utils.GLOBAL.trzsz_io.start_stdin_reader()
 
     transfer.send_action(True, __version__, remote_is_windows)
     config = transfer.recv_config()
